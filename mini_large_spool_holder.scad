@@ -5,8 +5,9 @@ $fn = 150; // higher values give a smoother surface
 spool_hole_dia = 2.25; // inches for Shaxon PLA filament spool
 //spool_hole_dia = 2.09; // inches for Makerbot small PLA filament spool
 //spool_hole_dia = 1.25; // inches for MG Chemicals PLA filament spool
-spool_hub_wall = 0.2; // wall thickness of spool hub
+
 spool_height = 3; // thickness of the spool
+spool_hub_wall = 0.2; // wall thickness of spool hub
 spool_dia = 9; // outer diameter of the spool
 spool_curb_width = .25; // width of curbs at edge of spool, that keep spool aligned.
 spool_curb_height = .2; // height of curbs
@@ -93,7 +94,7 @@ tab_points = [
 tab_paths = [[0,1,2,3,4,5,6,7,8,9,10]];
 
 module hook() {
-    margin = 0.05;
+    margin = 0.02; // TODO: play with this value to get a tight fit (0.05 is too large a Makerbot Mini)
     hanger_tab(margin);
     
     translate([0, spool_hole_dia+margin, 0])

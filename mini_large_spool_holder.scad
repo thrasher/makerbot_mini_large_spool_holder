@@ -35,10 +35,9 @@ module arm() {
     triangle_points =[
         [0, spool_hole_dia/2-spool_hub_wall],
         [spool_height+spool_curb_width*2, spool_hole_dia/2-spool_hub_wall],
-//        [spool_height+spool_curb_width, spool_hole_dia*.2],
         [0, 0]
     ];
-    triangle_paths =[[0,1,2,3]];
+    triangle_paths =[[0,1,2]];
     rotate([0,270,0])
         linear_extrude(height = spool_hub_wall, center = true, convexity = 10, twist = 0, slices = 20, scale = 1.0) 
         polygon(triangle_points, triangle_paths, convexity = 10);
@@ -48,8 +47,8 @@ module arm() {
         [-spool_hole_dia*.45, spool_hole_dia*.2],
         [-spool_hub_wall/2,0], [spool_hub_wall/2,0],
         [spool_hole_dia*.45, spool_hole_dia*.2],
-        [spool_hole_dia*.45, spool_hole_dia],
-        [-spool_hole_dia*.45, spool_hole_dia]
+        [spool_hole_dia*.45, spool_hole_dia + 1],
+        [-spool_hole_dia*.45, spool_hole_dia + 1]
     ];
     plate_paths =[[0,1,2,3,4,5]];
     difference() {
@@ -68,11 +67,11 @@ module  hanger_tab(margin) {
         [-(spool_hole_dia * .45 - spool_hole_dia * .2 - margin), spool_hole_dia*.7 + margin],
         [-(spool_hole_dia * .45 - spool_hole_dia * .3 - margin), spool_hole_dia + margin],
         [-spool_hole_dia*.45, spool_hole_dia + margin],
-        [-spool_hole_dia*.45, 5],
-        [spool_hole_dia*.45, 5]
+        [-spool_hole_dia*.45, 4],
+        [spool_hole_dia*.45, 4]
     ];
     tab_paths = [[0,1,2,3,4,5,6,7]];
-    translate([0, 0, -hanger_thickness])
+    translate([0, 1, -hanger_thickness])
         linear_extrude(height = hanger_thickness, center = false, convexity = 10, twist = 0, slices = 20, scale = 1.0) 
             polygon(tab_points, tab_paths, convexity = 10);
 }
@@ -105,7 +104,7 @@ module hook() {
 
 module plug() {
     pwidth = 0.4;
-    translate([-spool_dia/2, (9-2.25)/2 + 2.25, 0]) {
+    translate([spool_hole_dia * .45-pwidth, (9-2.25)/2 + 2.25, 0]) {
             difference() {
                 rotate([90, 0, 90])
                 union() {
@@ -124,6 +123,6 @@ module plug() {
 }
 
 // These parts are needed, and should be exported as STL separately from OpenSCAD
-plug();
-hook();
+//plug();
+//hook();
 arm();

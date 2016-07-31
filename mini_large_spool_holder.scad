@@ -2,9 +2,9 @@ $fs = 0.1; // mm per facet in cylinder
 $fa = 1; // degrees per facet in cylinder
 $fn = 150; // higher values give a smoother surface
 
-spool_hole_dia = 2.25; // inches for Shaxon PLA filament spool
+//spool_hole_dia = 2.25; // inches for Shaxon PLA filament spool
 //spool_hole_dia = 2.0; // inches for Makerbot small PLA filament spool
-//spool_hole_dia = 1.25; // inches for MG Chemicals PLA filament spool
+spool_hole_dia = 1.25; // inches for MG Chemicals PLA filament spool
 
 spool_height = 3; // thickness of the spool
 spool_hub_wall = 0.2; // wall thickness of spool hub
@@ -80,16 +80,16 @@ module  hanger_tab(margin) {
 mini_edge_thickness = .12;
 mini_wall_thickness = mini_edge_thickness/2;
 wall_points = [
-    [(9-spool_hole_dia)/2 - 1,0],
-    [(9-spool_hole_dia)/2 + hanger_thickness, 0],
-    [(9-spool_hole_dia)/2 + hanger_thickness, -hanger_thickness*2 - mini_wall_thickness],
-    [(9-spool_hole_dia)/2 - 1,                -hanger_thickness*2 - mini_wall_thickness],
-    [(9-spool_hole_dia)/2 - 1, -hanger_thickness - mini_wall_thickness],
-    [(9-spool_hole_dia)/2, -hanger_thickness - mini_wall_thickness],
-    [(9-spool_hole_dia)/2, -hanger_thickness + mini_wall_thickness],
-    [(9-spool_hole_dia)/2 - .62, -hanger_thickness + mini_wall_thickness],
-    [(9-spool_hole_dia)/2 - .62, -hanger_thickness],
-    [(9-spool_hole_dia)/2 - 1, -hanger_thickness]
+    [- 1             ,0],
+    [hanger_thickness, 0],
+    [hanger_thickness, -hanger_thickness*2 - mini_wall_thickness],
+    [- 1             , -hanger_thickness*2 - mini_wall_thickness],
+    [- 1             , -hanger_thickness - mini_wall_thickness],
+    [0               , -hanger_thickness - mini_wall_thickness],
+    [0               , -hanger_thickness + mini_wall_thickness],
+    [- .62           , -hanger_thickness + mini_wall_thickness],
+    [- .62           , -hanger_thickness],
+    [- 1             , -hanger_thickness]
 ];
 wall_paths = [[0,1,2,3,4,5,6,7,8,9,10]];
 
@@ -97,7 +97,7 @@ module hook() {
     margin = 0.02; // TODO: play with this value to get a tight fit (0.05 is too large for a Makerbot Mini)
     hanger_tab(margin);
     
-    translate([0, spool_hole_dia+margin, 0])
+    translate([0, (9-2.25)/2 + 2.25, 0])
     rotate([90, 0, 90])
     linear_extrude(height = spool_hole_dia*.45*2, center = true, convexity = 10, twist = 0, slices = 20, scale = 1.0) 
             polygon(wall_points, wall_paths, convexity = 10);
@@ -105,20 +105,22 @@ module hook() {
 
 module plug() {
     pwidth = 0.4;
-    translate([-spool_dia/2, spool_hole_dia, 0])
+    translate([-spool_dia/2, (9-2.25)/2 + 2.25, 0]) {
             difference() {
                 rotate([90, 0, 90])
                 union() {
                     linear_extrude(height = pwidth, center = false, convexity = 10, twist = 0, slices = 20, scale = 1.0) 
                             polygon(wall_points, wall_paths, convexity = 10);
-                    translate([(9-spool_hole_dia)/2 + hanger_thickness-pwidth, 0, 0]) cube([pwidth, pwidth ,pwidth]);
+                    translate([hanger_thickness-pwidth, 0, 0]) cube([pwidth, pwidth ,pwidth]);
                 }
-                rotate([270, 0, 0])
+                rotate([270, 0, 0]) {
                     translate([pwidth/2, -pwidth/2, 0]) {
-                        cylinder (h = 5, d=0.1);
-                        translate([0, 0, (9-spool_hole_dia)/2 + hanger_thickness - pwidth/2]) cylinder (h = 2, d=0.17);
+                        cylinder (h = 1, d=0.17);
+                        translate([0, 0, -pwidth/2]) cylinder (h = 1, d=0.1);
                     }
+                }
             }
+        }
 }
 
 // These parts are needed, and should be exported as STL separately from OpenSCAD

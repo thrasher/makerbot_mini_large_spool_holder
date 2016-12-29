@@ -7,7 +7,9 @@ http://www.thingiverse.com/thing:1666222
 This version allows you to change the diameter of the spool by editing the .STL file.  I recommend just printing for the smallest diameter spool that you expect to use (which is likely to be the default size, already set in the file), as the larger diameter spools will slide around just fine on the smaller size arm.
 
 ## Parts
-There are two parts, and an optional third.  The arm and hook are required.  To recreate them, use OpenSCAD and comment out each one to create a rendered STL for each.
+There are two parts, and an optional third.  The arm and hook are required.
+They will fit on the MakerBot Mini's printbed together, so you only have to
+run one print.  To recreate them, use OpenSCAD and comment out each one to create a rendered STL for each.
 
 In this version, I've included the plug (which holds the filament guide tube) as part of the hook.  This allows it to print in just two parts: arm and hook.  If you are using this for something separate, you can print the plug separately.
 

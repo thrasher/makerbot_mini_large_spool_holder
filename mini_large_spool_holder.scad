@@ -112,10 +112,15 @@ module plug() {
                             polygon(wall_points, wall_paths, convexity = 10);
                     translate([hanger_thickness-pwidth, 0, 0]) cube([pwidth, pwidth ,pwidth]);
                 }
-                rotate([270, 0, 0]) {
+                // cutout the hole for the filament feed tube and filament
+                // at an angle that releieves stress on the filament
+                rotate([255, 0, 25]) {
                     translate([pwidth/2, -pwidth/2, 0]) {
                         cylinder (h = 1, d=0.17);
-                        translate([0, 0, -pwidth/2]) cylinder (h = 1, d=0.1);
+                        translate([0, 0, -pwidth/2-.2]) cylinder (h = .45, d1=0.1, d2=0.1);
+                        translate([0, 0, -pwidth/2-.4]) cylinder (h = .4, d1=0.5, d2=0.1);
+                        // cut the sharp corners off
+                        translate([0, 0, -pwidth/2-.35]) cube([.5,.5,.5], center=true);
                     }
                 }
             }
@@ -123,6 +128,6 @@ module plug() {
 }
 
 // These parts are needed, and should be exported as STL separately from OpenSCAD
-//plug();
-//hook();
-arm();
+plug();
+hook();
+//arm();

@@ -130,4 +130,4 @@ module plug() {
 // These parts are needed, and should be exported as STL separately from OpenSCAD
 plug();
 hook();
-//arm();
+arm();
